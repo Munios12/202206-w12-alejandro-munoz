@@ -1,25 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import Comunicate from "./components/Comunicate";
+import { Hero } from "./components/Hero";
+import { gotCharacters } from "./data/characters";
 
 function App() {
+  const [character, setCharacter] = useState(gotCharacters);
+
+  const murderHero = (id: any) => {
+    setCharacter(
+      character.map((hero) =>
+        hero.id !== id ? { ...hero } : { ...hero, isAlive: false }
+      )
+    );
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="app container">
+        <ul className="characters-list row list-unstyled">
+          {character.map((hero) => (
+            <Hero character={hero} murderHero={murderHero} />
+          ))}
+        </ul>
+      </div>
+      <div className="comunications">
+        <Comunicate />
+      </div>
+    </>
   );
 }
 
